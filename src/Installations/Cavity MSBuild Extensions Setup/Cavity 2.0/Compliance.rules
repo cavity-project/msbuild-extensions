@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <BuildDependsOn>$(BuildDependsOn);Compliance</BuildDependsOn>
+    <RebuildDependsOn>$(RebuildDependsOn);Compliance</RebuildDependsOn>
+  </PropertyGroup>
+  <Target Name="Compliance">
+    <CallTarget Targets="csproj : required settings"/>
+    <CallTarget Targets="csproj : obsolete settings"/>
+    <CallTarget Targets="csproj : obsolete references"/>
+  </Target>
+  <Target Name="csproj : required settings" Condition="$(ProjectExt) == '.csproj'">
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)" 
+                                          XPath="1=count(//b:AssemblyName[text()])" 
+                                          Explanation="the AssemblyName property is required"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="1=count(//b:ProjectGuid[text()])"
+                                          Explanation="the ProjectGuid property is required"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="1=(count(//b:Import[@Project='%24(SolutionDir)Import\trove\Code.project']) + count(//b:Import[@Project='%24(SolutionDir)Import\trove\Tests.project']) + count(//b:Import[@Project='%24(SolutionDir)Import\trove\Mvc.project']))"
+                                          Explanation="the project must import one of Code.project, Tests.project or Mvc.project"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="1=(count(//b:Import[@Project='%24(SolutionDir)Import\trove\AnyCPU.platform']) + count(//b:Import[@Project='%24(SolutionDir)Import\trove\MixedCPU.platform']) + count(//b:Import[@Project='%24(SolutionDir)Import\trove\x64.platform']) + count(//b:Import[@Project='%24(SolutionDir)Import\trove\x86.platform']))"
+                                          Explanation="the project must import one of AnyCPU.platform, MixedCPU.platform, x64.platform or x86.platform"/>
+  </Target>
+  <Target Name="csproj : obsolete settings" Condition="$(ProjectExt) == '.csproj'">
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Configuration[text()='Debug'])"
+                                          Explanation="it is not necessary to set the Configuration property as Debug"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:TargetFrameworkVersion[text()='v4.0'])"
+                                          Explanation="it is not necessary to set the TargetFrameworkVersion property as v4.0"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:TargetFrameworkVersionName)"
+                                          Explanation="it is not necessary to set the TargetFrameworkVersionName property"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:TargetFrameworkVersionNumber)"
+                                          Explanation="it is not necessary to set the TargetFrameworkVersionNumber property"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:FileAlignment)"
+                                          Explanation="it is not necessary to set the FileAlignment property"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:ProductVersion)"
+                                          Explanation="it is not necessary to set the ProductVersion property"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:SchemaVersion)"
+                                          Explanation="it is not necessary to set the SchemaVersion property"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:OutputType[text()='Library'])"
+                                          Explanation="it is not necessary to set the OutputType property as Library"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:RootNamespace[text()='Cavity'])"
+                                          Explanation="it is not necessary to set the RootNamespace property as Cavity"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:DebugSymbols)"
+                                          Explanation="it is not necessary to set the DebugSymbols property"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:DebugType)"
+                                          Explanation="it is not necessary to set the DebugType property"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Optimize)"
+                                          Explanation="it is not necessary to set the Optimize property"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=(count(//b:Import[@Project='%24(MSBuildToolsPath)\Microsoft.CSharp.targets']))"
+                                          Explanation="it is not necessary to import the Microsoft.CSharp.targets"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Platform)"
+                                          Explanation="it is not necessary to set the Platform property"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:PlatformTarget)"
+                                          Explanation="it is not necessary to set the PlatformTarget property"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:StyleCopOverrideSettingsFile)"
+                                          Explanation="it is not necessary to set the StyleCopOverrideSettingsFile property"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:CodeAnalysisRuleSet)"
+                                          Explanation="it is not necessary to set the CodeAnalysisRuleSet property"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:ErrorReport)"
+                                          Explanation="it is not necessary to set the ErrorReport property"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:TreatWarningsAsErrors)"
+                                          Explanation="it is not necessary to set the TreatWarningsAsErrors property"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:WarningLevel)"
+                                          Explanation="it is not necessary to set the WarningLevel property"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:RunCodeAnalysis[text()='true'])"
+                                          Explanation="it is not necessary to set the RunCodeAnalysis property as true"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:CodeAnalysisTreatWarningsAsErrors[text()='true'])"
+                                          Explanation="it is not necessary to set the CodeAnalysisTreatWarningsAsErrors property as true"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:CodeAnalysisDictionary)"
+                                          Explanation="it is not necessary to set the CodeAnalysisDictionary property"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:StyleCopTreatErrorsAsWarnings[text()='false'])"
+                                          Explanation="it is not necessary to set the StyleCopTreatErrorsAsWarnings property as false"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:MvcBuildViews)"
+                                          Explanation="it is not necessary to set the MvcBuildViews property"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:UseIISExpress[text()='false'])"
+                                          Explanation="it is not necessary to set the UseIISExpress property as false"/>
+  </Target>
+  <Target Name="csproj : obsolete references" Condition="$(ProjectExt) == '.csproj'">
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='System'])"
+                                          Explanation="it is not necessary to reference System"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='System.Configuration'])"
+                                          Explanation="it is not necessary to reference System.Configuration"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='System.Drawing'])"
+                                          Explanation="it is not necessary to reference System.Drawing"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='System.Runtime.Serialization.Formatters.Soap'])"
+                                          Explanation="it is not necessary to reference System.Runtime.Serialization.Formatters.Soap"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='System.Transactions'])"
+                                          Explanation="it is not necessary to reference System.Transactions"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='System.Xml'])"
+                                          Explanation="it is not necessary to reference System.Xml"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='System.Core'])"
+                                          Explanation="it is not necessary to reference System.Core"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='System.Runtime.Serialization'])"
+                                          Explanation="it is not necessary to reference System.Runtime.Serialization"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='System.Xml.Linq'])"
+                                          Explanation="it is not necessary to reference System.Xml.Linq"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='System.Numerics'])"
+                                          Explanation="it is not necessary to reference System.Numerics"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='Microsoft.CSharp'])"
+                                          Explanation="it is not necessary to reference Microsoft.CSharp"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='System.Data'])"
+                                          Explanation="it is not necessary to reference System.Data, import Data.references instead"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='System.ComponentModel.DataAnnotations'])"
+                                          Explanation="it is not necessary to reference System.ComponentModel.DataAnnotations, import Data.references instead"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='System.Data.DataSetExtensions'])"
+                                          Explanation="it is not necessary to reference System.Data.DataSetExtensions, import Data.references instead"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='System.Data.Entity'])"
+                                          Explanation="it is not necessary to reference System.Data.Entity, import Data.references instead"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='System.Data.Linq'])"
+                                          Explanation="it is not necessary to reference System.Data.Linq, import Data.references instead"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='System.ComponentModel.Composition'])"
+                                          Explanation="it is not necessary to reference System.ComponentModel.Composition, import MEF.references instead"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='Microsoft.Build.Framework'])"
+                                          Explanation="it is not necessary to reference Microsoft.Build.Framework, import MSBuild.references instead"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='Microsoft.Build.Utilities'])"
+                                          Explanation="it is not necessary to reference Microsoft.Build.Utilities, import MSBuild.references instead"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='Microsoft.Build.Utilities.v3.5'])"
+                                          Explanation="it is not necessary to reference Microsoft.Build.Utilities.v3.5, import MSBuild.references instead"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='Microsoft.Build.Utilities.v4.0'])"
+                                          Explanation="it is not necessary to reference Microsoft.Build.Utilities.v4.0, import MSBuild.references instead"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='System.ServiceProcess'])"
+                                          Explanation="it is not necessary to reference System.ServiceProcess, import Service.references instead"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='System.Web'])"
+                                          Explanation="it is not necessary to reference System.Web, import Web.references instead"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='System.Web.Abstractions'])"
+                                          Explanation="it is not necessary to reference System.Web.Abstractions, import Web.references instead"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='System.Web.ApplicationServices'])"
+                                          Explanation="it is not necessary to reference System.Web.ApplicationServices, import Web.references instead"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='System.Web.DynamicData'])"
+                                          Explanation="it is not necessary to reference System.Web.DynamicData, import Web.references instead"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='System.Web.Entity'])"
+                                          Explanation="it is not necessary to reference System.Web.Entity, import Web.references instead"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='System.Web.Extensions'])"
+                                          Explanation="it is not necessary to reference System.Web.Extensions, import Web.references instead"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='System.Web.Routing'])"
+                                          Explanation="it is not necessary to reference System.Web.Routing, import Web.references instead"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='System.Web.Services'])"
+                                          Explanation="it is not necessary to reference System.Web.Services, import Web.references instead"/>
+    <Cavity.Build.CSharpProjectCompliance Projects="$(ProjectPath)"
+                                          XPath="0=count(//b:Reference[@Include='System.EnterpriseServices'])"
+                                          Explanation="it is not necessary to reference System.EnterpriseServices, import Windows.references instead"/>
+  </Target>
+</Project>

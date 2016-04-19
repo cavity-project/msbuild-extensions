@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <UsingTask AssemblyFile="$(MSBuildExtensionsPath)\xunit\xunit.runner.msbuild.dll" TaskName="Xunit.Runner.MSBuild.CombineXunitXml" />
+  <UsingTask AssemblyFile="$(MSBuildExtensionsPath)\xunit\xunit.runner.msbuild.dll" TaskName="Xunit.Runner.MSBuild.xunit" />
+  <UsingTask AssemblyFile="$(MSBuildExtensionsPath)\xunit\xunit.runner.msbuild.dll" TaskName="Xunit.Runner.MSBuild.xunitproject" />
+  <PropertyGroup>
+    <xUnitTestResultsDirectory>$(MSBuildProjectDirectory)\xunit-test-results</xUnitTestResultsDirectory>
+  </PropertyGroup>
+  <Target Name="xUnit Tests">
+    <RemoveDir Directories="$(xUnitTestResultsDirectory)" Condition="Exists('$(xUnitTestResultsDirectory)')" />
+    <MakeDir Directories="$(xUnitTestResultsDirectory)" Condition="!Exists('$(xUnitTestResultsDirectory)')" />
+    <CallTarget Targets="xUnit Test obj removal" />
+    <CallTarget Targets="xUnit Test Run" />
+    <!--<CallTarget Targets="xUnit Test Results Merge" />-->
+    <RemoveDir Directories="$(xUnitTestResultsDirectory)"
+               Condition="Exists('$(xUnitTestResultsDirectory)')" />
+  </Target>
+  <Target Name="xUnit Test obj removal">
+    <ItemGroup>
+      <CsProjFiles Include="$(MSBuildProjectDirectory)\**\*.csproj" />
+    </ItemGroup>
+    <MSBuild.ExtensionPack.Framework.MsBuildHelper TaskAction="GetItemCount"
+                                                   InputItems1="@(CsProjFiles)">
+      <Output TaskParameter="ItemCount" PropertyName="CsProjFilesCount"/>
+    </MSBuild.ExtensionPack.Framework.MsBuildHelper>
+    <RemoveDir Directories="%(CsProjFiles.RelativeDir)obj\" Condition="'$(CsProjFilesCount)' != '0'" />
+  </Target>
+  <Target Name="xUnit Test Run" Condition=" '$(TargetFrameworkVersion)' != 'v2.0' ">
+    <ItemGroup>
+      <xUnitFiles Include="$(MSBuildProjectDirectory)\**\*.Facts.dll" />
+    </ItemGroup>
+    <MSBuild.ExtensionPack.Framework.MsBuildHelper TaskAction="GetItemCount"
+                                                   InputItems1="@(xUnitFiles)">
+      <Output TaskParameter="ItemCount" PropertyName="xUnitFilesCount"/>
+    </MSBuild.ExtensionPack.Framework.MsBuildHelper>
+    <Xunit.Runner.MSBuild.xunit ContinueOnError="false"
+                                Assembly="%(xUnitFiles.FullPath)"
+                                ShadowCopy="false"
+                                Xml="$(xUnitTestResultsDirectory)\%(xUnitFiles.Filename).xunit"
+                                Condition="'$(xUnitFilesCount)' != '0'" />
+  </Target>
+  <Target Name="xUnit Test Results Merge">
+    <CreateItem Include="$(xUnitTestResultsDirectory)\*.xunit">
+      <Output TaskParameter="Include" ItemName="xUnitTestFiles" />
+    </CreateItem>
+    <Xunit.Runner.MSBuild.CombineXunitXml InputFiles="@(xUnitTestFiles)"
+                                          OutputFile="$(xUnitTestResultsDirectory)\Combined.xml" />
+    <Delete Files="@(xUnitTestFiles)" />
+  </Target>
+</Project>

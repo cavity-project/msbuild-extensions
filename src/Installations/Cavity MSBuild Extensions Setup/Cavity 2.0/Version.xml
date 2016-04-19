@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MajorVersion Condition="'$(MajorVersion)'==''">0</MajorVersion>
+    <MinorVersion Condition="'$(MinorVersion)'==''">0</MinorVersion>
+    <BuildVersion Condition="'$(BuildVersion)'==''">0</BuildVersion>
+    <Revision Condition="'$(Revision)'==''">0</Revision>
+    <MajorVersion Condition="'$(RevisionSource)'=='DateTime'">$([System.DateTime]::Now.ToString("yy"))</MajorVersion>
+    <MinorVersion Condition="'$(RevisionSource)'=='DateTime'">$([System.DateTime]::Now.ToString("MM"))</MinorVersion>
+    <BuildVersion Condition="'$(RevisionSource)'=='DateTime'">$([System.DateTime]::Now.ToString("dd"))</BuildVersion>
+    <Revision Condition="'$(RevisionSource)'=='DateTime'">$([System.DateTime]::Now.ToString("HHmm"))</Revision>
+  </PropertyGroup>
+  <ItemGroup>
+    <NuSpecFiles Include="$(MSBuildProjectDirectory)\**\*.nuspec" />
+    <VersionCsFiles Include="$(MSBuildProjectDirectory)\**\Version.cs" />
+    <WixFiles Include="$(MSBuildProjectDirectory)\**\Product.wxs" />
+  </ItemGroup>
+  <Target Name="Version" DependsOnTargets="Subversion">
+    <CallTarget Targets="AssemblyInfo" />
+    <CallTarget Targets="NuSpec" />
+    <CallTarget Targets="Version XML" />
+    <CallTarget Targets="Wix" />
+  </Target>
+  <Target Name="Subversion"
+          Condition="'$(RevisionSource)'=='Subversion'">
+    <MSBuild.Community.Tasks.Subversion.SvnVersion LocalPath=".">
+      <Output TaskParameter="Revision"
+              PropertyName="Revision" />
+    </MSBuild.Community.Tasks.Subversion.SvnVersion>
+  </Target>
+  <Target Name="AssemblyInfo">
+    <MSBuild.Community.Tasks.AssemblyInfo Condition="'$(Revision)' &gt; '0'"
+                                          CodeLanguage="CS"
+                                          OutputFile="%(VersionCsFiles.Identity)"
+                                          AssemblyVersion="$(MajorVersion).$(MinorVersion).0.0"
+                                          AssemblyFileVersion="$(MajorVersion).$(MinorVersion).$(BuildVersion).$(Revision)"
+                                          AssemblyInformationalVersion="$(MajorVersion).$(MinorVersion).$(BuildVersion).$(Revision)" />
+  </Target>
+  <Target Name="NuSpec" Condition="'$(Revision)' &gt; '0'">
+    <MSBuild.ExtensionPack.Framework.MsBuildHelper TaskAction="GetItemCount"
+                                                   InputItems1="@(NuSpecFiles)">
+      <Output TaskParameter="ItemCount" PropertyName="NuSpecFilesCount"/>
+    </MSBuild.ExtensionPack.Framework.MsBuildHelper>
+    <MSBuild.Community.Tasks.XmlUpdate Prefix="n"
+                                       Namespace="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd"
+                                       XmlFileName="%(NuSpecFiles.Identity)"
+                                       XPath="/n:package/n:metadata/n:version"
+                                       Value="$(MajorVersion).$(MinorVersion).$(BuildVersion).$(Revision)"
+                                       Condition="'$(NuSpecFilesCount)' != '0'" />
+  </Target>
+  <Target Name="Version XML" Condition="'$(Revision)' &gt; '0'">
+    <MSBuild.Community.Tasks.XmlUpdate Prefix="m"
+                                       Namespace="http://schemas.microsoft.com/developer/msbuild/2003"
+                                       XmlFileName="$(MSBuildProjectDirectory)\version.xml"
+                                       XPath="/m:Project/m:PropertyGroup/m:MajorVersion"
+                                       Value="$(MajorVersion)" />
+    <MSBuild.Community.Tasks.XmlUpdate Prefix="m"
+                                       Namespace="http://schemas.microsoft.com/developer/msbuild/2003"
+                                       XmlFileName="$(MSBuildProjectDirectory)\version.xml"
+                                       XPath="/m:Project/m:PropertyGroup/m:MinorVersion"
+                                       Value="$(MinorVersion)" />
+    <MSBuild.Community.Tasks.XmlUpdate Prefix="m"
+                                       Namespace="http://schemas.microsoft.com/developer/msbuild/2003"
+                                       XmlFileName="$(MSBuildProjectDirectory)\version.xml"
+                                       XPath="/m:Project/m:PropertyGroup/m:BuildVersion"
+                                       Value="$(BuildVersion)" />
+    <MSBuild.Community.Tasks.XmlUpdate Prefix="m"
+                                       Namespace="http://schemas.microsoft.com/developer/msbuild/2003"
+                                       XmlFileName="$(MSBuildProjectDirectory)\version.xml"
+                                       XPath="/m:Project/m:PropertyGroup/m:Revision"
+                                       Value="$(Revision)" />
+    <MSBuild.Community.Tasks.XmlUpdate Prefix="m"
+                                       Namespace="http://schemas.microsoft.com/developer/msbuild/2003"
+                                       XmlFileName="$(MSBuildProjectDirectory)\version.xml"
+                                       XPath="/m:Project/m:PropertyGroup/m:FullVersion"
+                                       Value="$(MajorVersion).$(MinorVersion).$(BuildVersion).$(Revision)" />
+  </Target>
+  <Target Name="Wix" Condition="'$(Revision)' &gt; '0'">
+    <MSBuild.ExtensionPack.Framework.MsBuildHelper TaskAction="GetItemCount"
+                                                   InputItems1="@(WixFiles)">
+      <Output TaskParameter="ItemCount" PropertyName="WixFilesCount"/>
+    </MSBuild.ExtensionPack.Framework.MsBuildHelper>
+    <MSBuild.Community.Tasks.XmlUpdate Prefix="wix"
+                                       Namespace="http://schemas.microsoft.com/wix/2006/wi"
+                                       XmlFileName="%(WixFiles.Identity)"
+                                       XPath="/wix:Wix/wix:Product/@Version"
+                                       Value="$(MajorVersion).$(MinorVersion).$(BuildVersion).$(Revision)"
+                                       Condition="'$(WixFilesCount)' != '0'" />
+  </Target>
+</Project>

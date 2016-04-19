@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <SolutionFiles Include="$(MSBuildProjectDirectory)\**\*.sln" />
+  </ItemGroup>
+  <PropertyGroup>
+    <Configuration Condition="'$(Configuration)'==''">Release</Configuration>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NET20 Condition="'$(NET20)'==''">false</NET20>
+    <NET35 Condition="'$(NET35)'==''">false</NET35>
+    <NET40 Condition="'$(NET40)'==''">false</NET40>
+    <NET45 Condition="'$(NET45)'==''">true</NET45>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AnyCPU Condition="'$(AnyCPU)'==''">true</AnyCPU>
+    <MixedPlatforms Condition="'$(MixedPlatforms)'==''">false</MixedPlatforms>
+    <x86 Condition="'$(x86)'==''">false</x86>
+    <x64 Condition="'$(x64)'==''">false</x64>
+  </PropertyGroup>
+  <Target Name="Build">
+    <CallTarget Targets="Build NET20" />
+    <CallTarget Targets="Build NET35" />
+    <CallTarget Targets="Build NET40" />
+    <CallTarget Targets="Build NET45" />
+  </Target>
+  <Target Name="Build NET20" Condition=" '$(NET20)'=='true' ">
+    <MSBuild Projects="%(SolutionFiles.Identity)"
+             Targets="Rebuild"
+             Properties="$(MSBuildProperties);CommandLineBuild=true;Configuration=$(Configuration);TargetFrameworkVersion=v2.0"
+             BuildInParallel="true"
+             Condition=" '$(AnyCPU)'=='true' " />
+    <MSBuild Projects="%(SolutionFiles.Identity)"
+             Targets="Rebuild"
+             Properties="$(MSBuildProperties);CommandLineBuild=true;Configuration=$(Configuration);TargetFrameworkVersion=v2.0;Platform=Mixed Platforms"
+             BuildInParallel="true"
+             Condition=" '$(MixedPlatforms)'=='true' " />
+    <MSBuild Projects="%(SolutionFiles.Identity)"
+             Targets="Rebuild"
+             Properties="$(MSBuildProperties);CommandLineBuild=true;Configuration=$(Configuration);TargetFrameworkVersion=v2.0;Platform=x86"
+             BuildInParallel="true"
+             Condition=" '$(x86)'=='true' " />
+    <MSBuild Projects="%(SolutionFiles.Identity)"
+             Targets="Rebuild"
+             Properties="$(MSBuildProperties);CommandLineBuild=true;Configuration=$(Configuration);TargetFrameworkVersion=v2.0;Platform=x64"
+             BuildInParallel="true"
+             Condition=" '$(x64)'=='true' " />
+  </Target>
+  <Target Name="Build NET35" Condition=" '$(NET35)'=='true' ">
+    <MSBuild Projects="%(SolutionFiles.Identity)"
+             Targets="Rebuild"
+             Properties="$(MSBuildProperties);CommandLineBuild=true;Configuration=$(Configuration);TargetFrameworkVersion=v3.5"
+             BuildInParallel="true"
+             Condition=" '$(AnyCPU)'=='true' " />
+    <MSBuild Projects="%(SolutionFiles.Identity)"
+             Targets="Rebuild"
+             Properties="$(MSBuildProperties);CommandLineBuild=true;Configuration=$(Configuration);TargetFrameworkVersion=v3.5;Platform=Mixed Platforms"
+             BuildInParallel="true"
+             Condition=" '$(MixedPlatforms)'=='true' " />
+    <MSBuild Projects="%(SolutionFiles.Identity)"
+             Targets="Rebuild"
+             Properties="$(MSBuildProperties);CommandLineBuild=true;Configuration=$(Configuration);TargetFrameworkVersion=v3.5;Platform=x86"
+             BuildInParallel="true"
+             Condition=" '$(x86)'=='true' " />
+    <MSBuild Projects="%(SolutionFiles.Identity)"
+             Targets="Rebuild"
+             Properties="$(MSBuildProperties);CommandLineBuild=true;Configuration=$(Configuration);TargetFrameworkVersion=v3.5;Platform=x64"
+             BuildInParallel="true"
+             Condition=" '$(x64)'=='true' " />
+  </Target>
+  <Target Name="Build NET40" Condition=" '$(NET40)'=='true' ">
+    <MSBuild Projects="%(SolutionFiles.Identity)"
+             Targets="Rebuild"
+             Properties="$(MSBuildProperties);CommandLineBuild=true;Configuration=$(Configuration);TargetFrameworkVersion=v4.0"
+             BuildInParallel="true"
+             Condition=" '$(AnyCPU)'=='true' " />
+    <MSBuild Projects="%(SolutionFiles.Identity)"
+             Targets="Rebuild"
+             Properties="$(MSBuildProperties);CommandLineBuild=true;Configuration=$(Configuration);TargetFrameworkVersion=v4.0;Platform=Mixed Platforms"
+             BuildInParallel="true"
+             Condition=" '$(MixedPlatforms)'=='true' " />
+    <MSBuild Projects="%(SolutionFiles.Identity)"
+             Targets="Rebuild"
+             Properties="$(MSBuildProperties);CommandLineBuild=true;Configuration=$(Configuration);TargetFrameworkVersion=v4.0;Platform=x86"
+             BuildInParallel="true"
+             Condition=" '$(x86)'=='true' " />
+    <MSBuild Projects="%(SolutionFiles.Identity)"
+             Targets="Rebuild"
+             Properties="$(MSBuildProperties);CommandLineBuild=true;Configuration=$(Configuration);TargetFrameworkVersion=v4.0;Platform=x64"
+             BuildInParallel="true"
+             Condition=" '$(x64)'=='true' " />
+  </Target>
+  <Target Name="Build NET45" Condition=" '$(NET45)'=='true' ">
+    <MSBuild Projects="%(SolutionFiles.Identity)"
+             Targets="Rebuild"
+             Properties="$(MSBuildProperties);CommandLineBuild=true;Configuration=$(Configuration);TargetFrameworkVersion=v4.5"
+             BuildInParallel="true"
+             Condition=" '$(AnyCPU)'=='true' " />
+    <MSBuild Projects="%(SolutionFiles.Identity)"
+             Targets="Rebuild"
+             Properties="$(MSBuildProperties);CommandLineBuild=true;Configuration=$(Configuration);TargetFrameworkVersion=v4.5;Platform=Mixed Platforms"
+             BuildInParallel="true"
+             Condition=" '$(MixedPlatforms)'=='true' " />
+    <MSBuild Projects="%(SolutionFiles.Identity)"
+             Targets="Rebuild"
+             Properties="$(MSBuildProperties);CommandLineBuild=true;Configuration=$(Configuration);TargetFrameworkVersion=v4.5;Platform=x86"
+             BuildInParallel="true"
+             Condition=" '$(x86)'=='true' " />
+    <MSBuild Projects="%(SolutionFiles.Identity)"
+             Targets="Rebuild"
+             Properties="$(MSBuildProperties);CommandLineBuild=true;Configuration=$(Configuration);TargetFrameworkVersion=v4.5;Platform=x64"
+             BuildInParallel="true"
+             Condition=" '$(x64)'=='true' " />
+  </Target>
+</Project>

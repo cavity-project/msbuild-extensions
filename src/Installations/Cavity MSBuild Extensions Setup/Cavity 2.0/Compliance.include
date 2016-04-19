@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\Cavity 2.0\net40\Cavity.MSBuild.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Cavity 2.0\Compliance.rules" />
+  <PropertyGroup>
+    <ErrorReport Condition=" '$(ErrorReport)' == '' ">prompt</ErrorReport>
+    <TreatWarningsAsErrors Condition=" '$(TreatWarningsAsErrors)' == '' ">true</TreatWarningsAsErrors>
+    <WarningLevel Condition=" '$(WarningLevel)' == '' ">4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunCodeAnalysis Condition=" '$(RunCodeAnalysis)' == '' ">true</RunCodeAnalysis>
+    <CodeAnalysisTreatWarningsAsErrors Condition=" '$(CodeAnalysisTreatWarningsAsErrors)' == '' ">true</CodeAnalysisTreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Condition="Exists('Properties\CodeAnalysis.dictionary')"
+                            Include="Properties\CodeAnalysis.dictionary">
+      <Link>Properties\CodeAnalysis.dictionary</Link>
+    </CodeAnalysisDictionary>
+  </ItemGroup>
+  <PropertyGroup>
+    <StyleCopTreatErrorsAsWarnings Condition=" '$(StyleCopTreatErrorsAsWarnings)' == '' ">false</StyleCopTreatErrorsAsWarnings>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\StyleCop\v4.7\StyleCop.targets" />
+</Project>

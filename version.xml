@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MajorVersion>16</MajorVersion>
+    <MinorVersion>04</MinorVersion>
+    <BuildVersion>19</BuildVersion>
+    <Revision>1148</Revision>
+    <FullVersion>16.04.19.1148</FullVersion>
+    <RevisionSource>DateTime</RevisionSource>
+  </PropertyGroup>
+</Project>

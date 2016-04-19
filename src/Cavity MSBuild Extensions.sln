@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C7EAB0B3-3CEC-4D2D-9013-461054002A12}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Class Libraries", "Class Libraries", "{9EB1AC55-69EE-4EDC-84B1-5BF69A1D9AC2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSBuild", "Class Libraries\MSBuild.Compliance\MSBuild.Compliance.csproj", "{0FF43960-7762-46A3-BA82-DBA2161DBAC9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSBuild.Facts", "Class Libraries\MSBuild.Compliance.Facts\MSBuild.Compliance.Facts.csproj", "{14BB7A5D-3FED-49A7-9BE1-B4F6BF8BF557}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Installations", "Installations", "{7355EA3A-0050-4F72-81D7-C198B78D6911}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Cavity MSBuild Extensions Setup", "Installations\Cavity MSBuild Extensions Setup\Cavity MSBuild Extensions Setup.wixproj", "{75017F3C-E87D-49D3-9C65-9F094C1CC7AC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{75017F3C-E87D-49D3-9C65-9F094C1CC7AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75017F3C-E87D-49D3-9C65-9F094C1CC7AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75017F3C-E87D-49D3-9C65-9F094C1CC7AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75017F3C-E87D-49D3-9C65-9F094C1CC7AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FF43960-7762-46A3-BA82-DBA2161DBAC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FF43960-7762-46A3-BA82-DBA2161DBAC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FF43960-7762-46A3-BA82-DBA2161DBAC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FF43960-7762-46A3-BA82-DBA2161DBAC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14BB7A5D-3FED-49A7-9BE1-B4F6BF8BF557}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14BB7A5D-3FED-49A7-9BE1-B4F6BF8BF557}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14BB7A5D-3FED-49A7-9BE1-B4F6BF8BF557}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14BB7A5D-3FED-49A7-9BE1-B4F6BF8BF557}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{75017F3C-E87D-49D3-9C65-9F094C1CC7AC} = {7355EA3A-0050-4F72-81D7-C198B78D6911}
+		{0FF43960-7762-46A3-BA82-DBA2161DBAC9} = {9EB1AC55-69EE-4EDC-84B1-5BF69A1D9AC2}
+		{14BB7A5D-3FED-49A7-9BE1-B4F6BF8BF557} = {9EB1AC55-69EE-4EDC-84B1-5BF69A1D9AC2}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <NunitTestResultsDirectory>$(MSBuildProjectDirectory)\nunit-test-results</NunitTestResultsDirectory>
+  </PropertyGroup>
+  <Target Name="NUnit Tests">
+    <RemoveDir Directories="$(NunitTestResultsDirectory)" Condition="Exists('$(NunitTestResultsDirectory)')" />
+    <MakeDir Directories="$(NunitTestResultsDirectory)" Condition="!Exists('$(NunitTestResultsDirectory)')" />
+    <CallTarget Targets="NUnit Test obj removal" />
+    <CallTarget Targets="NUnit Test Run" />
+    <RemoveDir Directories="$(NunitTestResultsDirectory)"
+               Condition="Exists('$(NunitTestResultsDirectory)')" />
+  </Target>
+  <Target Name="NUnit Test obj removal">
+    <ItemGroup>
+      <CsProjFiles Include="$(MSBuildProjectDirectory)\**\*.csproj" />
+    </ItemGroup>
+    <MSBuild.ExtensionPack.Framework.MsBuildHelper TaskAction="GetItemCount"
+                                                   InputItems1="@(CsProjFiles)">
+      <Output TaskParameter="ItemCount" PropertyName="CsProjFilesCount"/>
+    </MSBuild.ExtensionPack.Framework.MsBuildHelper>
+    <RemoveDir Directories="%(CsProjFiles.RelativeDir)obj\" Condition="'$(CsProjFilesCount)' != '0'" />
+  </Target>
+  <Target Name="NUnit Test Run">
+    <ItemGroup>
+      <NUnitFiles Include="$(MSBuildProjectDirectory)\**\*.Tests.dll" />
+      <NUnitFiles Include="$(MSBuildProjectDirectory)\**\*.Specifications.dll" />
+    </ItemGroup>
+    <MSBuild.ExtensionPack.Framework.MsBuildHelper TaskAction="GetItemCount"
+                                                   InputItems1="@(NUnitFiles)">
+      <Output TaskParameter="ItemCount" PropertyName="NUnitFilesCount"/>
+    </MSBuild.ExtensionPack.Framework.MsBuildHelper>
+    <MSBuild.Community.Tasks.NUnit ToolPath="$(MSBuildExtensionsPath)\NUnit 2.6"
+                                   WorkingDirectory="%(NUnitFiles.RootDir)%(NUnitFiles.Directory)"
+                                   OutputXmlFile="$(NunitTestResultsDirectory)\test-results.xml"
+    	                             Assemblies="%(NUnitFiles.FullPath)"
+                                   Condition="'$(NUnitFilesCount)' != '0'" />
+  </Target>
+</Project>

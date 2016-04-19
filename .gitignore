@@ -1,32 +1,44 @@
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
+# folders
+.svn/
+bin/
+obj/
+bundle/
+bundles/
+packages/
+temp/
+test-results/
+xunit-test-results/
 
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-
-# Shared objects (inc. Windows DLLs)
+# filetypes
+*.bak
+*.Cache
+*.chw
+*.dbmdl
 *.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
+*.dotCover
 *.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
+*.log
+*.pdb
+*.suo
+*.svn-base
+*.user
+*.vs10x
+*.Publish.xml
+*.Resharper.user
+*.sln.cache
+*.sln.docstates
 
-# Debug files
-*.dSYM/
+# files
+all-wcprops
+Ankh.Load
+Ankh.NoLoad
+entries
+lint.db
+Reflector.cfg
+StyleCop.Cache
+Thumbs.db
+
+# file patterns
+*crunchproject*
+*crunchsolution*
+_Resharper*

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
+         DefaultTargets="Run"
+         ToolsVersion="4.0">
+  <ImportGroup>
+    <Import Project="$(MSBuildProjectDirectory)\version.xml" />
+  </ImportGroup>
+  <ImportGroup>
+    <Import Project="$(MSBuildExtensionsPath)\Cavity 2.0\MSBuild.tasks" />
+    <Import Project="$(MSBuildExtensionsPath)\Cavity 2.0\Version.xml" />
+    <Import Project="$(MSBuildExtensionsPath)\Cavity 2.0\Build.all" />
+    <Import Project="$(MSBuildExtensionsPath)\Cavity 2.0\Clean.all" />
+    <Import Project="$(MSBuildExtensionsPath)\Cavity 2.0\Test.all" />
+    <Import Project="$(MSBuildExtensionsPath)\Cavity 2.0\Bundle.all" />
+  </ImportGroup>
+  <PropertyGroup>
+    <NET20>false</NET20>
+    <NET35>false</NET35>
+    <NET40>true</NET40>
+    <NET45>false</NET45>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AnyCPU>true</AnyCPU>
+    <x86>false</x86>
+    <x64>false</x64>
+  </PropertyGroup>
+  <Target Name="Run" DependsOnTargets="Version">
+    <CallTarget Targets="Clean" />
+    <CallTarget Targets="Build" />
+    <CallTarget Targets="Test" />
+    <CallTarget Targets="Bundle" />
+  </Target>
+</Project>

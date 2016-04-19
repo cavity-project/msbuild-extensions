@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?define UpgradeCode="{eca2a284-aa50-48df-9737-7ef87798362d}"?>
+  <Product Id="*" Name="Cavity MSBuild Extensions 2.0" Language="1033" Version="16.04.19.1148" Manufacturer="Alan Dean" UpgradeCode="$(var.UpgradeCode)">
+    <Package InstallerVersion="200" InstallScope="perMachine" InstallPrivileges="elevated" Compressed="yes" Description="Installs the Cavity MSBuild extensions." />
+    <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+    <MajorUpgrade AllowSameVersionUpgrades="yes" DowngradeErrorMessage="A more recent version of [ProductName] is already installed. Setup will now exit." />
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="MSBuildExtensionsPath" Name="MSBuild">
+          <Directory Id="INSTALLLOCATION20" Name="Cavity 2.0">
+            <Directory Id="NET40LOCATION20" Name="net40">
+              <Component Id="NET4020" Guid="20f7fd4f-9eb4-4d11-b678-2c026fb48060">
+                <RegistryValue Root="HKLM" Key="Software\Cavity 2.0\MSBuild Extensions (NET40)" Type="string" Value="Installed" KeyPath="yes" />
+                <File Id="CavityCore" Name="Cavity.Core.dll" Source="$(var.MSBuild.TargetDir)\Cavity.Core.dll" />
+                <File Id="CavityMSBuild20" Name="Cavity.MSBuild.dll" Source="$(var.MSBuild.TargetDir)\Cavity.MSBuild.dll" />
+                <File Id="CavityMSBuildTargets20" Name="Cavity.MSBuild.targets" Source="$(var.MSBuild.TargetDir)\Cavity.MSBuild.targets" />
+              </Component>
+            </Directory>
+            <Component Id="Cavity20" Guid="46fd19ef-410b-48aa-98d8-87ffccea95ad">
+              <RegistryValue Root="HKLM" Key="Software\Cavity 2.0\MSBuild Extensions" Type="string" Value="Installed" KeyPath="yes" />
+              <File Id="AnyInclude20" Name="Any.include" Source="Cavity 2.0\Any.include" />
+              <File Id="AnyCpuPlatform20" Name="AnyCPU.platform" Source="Cavity 2.0\AnyCPU.platform" />
+              <File Id="BuildAll20" Name="Build.all" Source="Cavity 2.0\Build.all" />
+              <File Id="BundleAll20" Name="Bundle.all" Source="Cavity 2.0\Bundle.all" />
+              <File Id="CleanAll20" Name="Clean.all" Source="Cavity 2.0\Clean.all" />
+              <File Id="CodeProject20" Name="Code.project" Source="Cavity 2.0\Code.project" />
+              <File Id="CodeRuleset20" Name="Code.ruleset" Source="Cavity 2.0\Code.ruleset" />
+              <File Id="CodeStyleCop20" Name="Code.stylecop" Source="Cavity 2.0\Code.stylecop" />
+              <File Id="ComplianceInclude20" Name="Compliance.include" Source="Cavity 2.0\Compliance.include" />
+              <File Id="ComplianceRules20" Name="Compliance.rules" Source="Cavity 2.0\Compliance.rules" />
+              <File Id="MixedCpuPlatform20" Name="MixedCPU.platform" Source="Cavity 2.0\MixedCPU.platform" />
+              <File Id="MSBuildTasks20" Name="MSBuild.tasks" Source="Cavity 2.0\MSBuild.tasks" />
+              <File Id="MvcProject20" Name="Mvc.project" Source="Cavity 2.0\Mvc.project" />
+              <File Id="NUnitTest20" Name="NUnit.test" Source="Cavity 2.0\NUnit.test" />
+              <File Id="TargetFramework20" Name="Target.framework" Source="Cavity 2.0\Target.framework" />
+              <File Id="TestAll20" Name="Test.all" Source="Cavity 2.0\Test.all" />
+              <File Id="TestsProject20" Name="Tests.project" Source="Cavity 2.0\Tests.project" />
+              <File Id="TestsRuleset20" Name="Tests.ruleset" Source="Cavity 2.0\Tests.ruleset" />
+              <File Id="TestsStyleCop20" Name="Tests.stylecop" Source="Cavity 2.0\Tests.stylecop" />
+              <File Id="VersionXml20" Name="Version.xml" Source="Cavity 2.0\Version.xml" />
+              <File Id="WixSetup20" Name="WiX.setup" Source="Cavity 2.0\WiX.setup" />
+              <File Id="x64Platform20" Name="x64.platform" Source="Cavity 2.0\x64.platform" />
+              <File Id="x86Platform20" Name="x86.platform" Source="Cavity 2.0\x86.platform" />
+              <File Id="XunitTest20" Name="Xunit.test" Source="Cavity 2.0\Xunit.test" />
+            </Component>
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
+    <Feature Id="ProductFeature" Title="MSBuild Files" Level="1">
+      <ComponentRef Id="Cavity20" />
+      <ComponentRef Id="NET4020" />
+    </Feature>
+  </Product>
+</Wix>

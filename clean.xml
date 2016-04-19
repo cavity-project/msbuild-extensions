@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
+         DefaultTargets="Run"
+         ToolsVersion="4.0">
+  <ImportGroup>
+    <Import Project="$(MSBuildExtensionsPath)\Cavity 2.0\Clean.all" />
+  </ImportGroup>
+  <Target Name="Run">
+    <CallTarget Targets="Clean" />
+    <CallTarget Targets="Clean packages" />
+  </Target>
+</Project>

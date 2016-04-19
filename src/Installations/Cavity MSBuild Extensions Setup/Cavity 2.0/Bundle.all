@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <BundleFiles Include="$(MSBuildProjectDirectory)\**\*.bundle" />
+    <NuSpecFiles Include="$(MSBuildProjectDirectory)\**\*.nuspec" />
+  </ItemGroup>
+  <PropertyGroup>
+    <BundleDirectory>$(MSBuildProjectDirectory)\bundles</BundleDirectory>
+  </PropertyGroup>
+  <Target Name="Bundle">
+    <CallTarget Targets="Bundle Files" />
+    <CallTarget Targets="Bundle NuGet" />
+  </Target>
+  <Target Name="Bundle Files">
+    <MSBuild.ExtensionPack.Framework.MsBuildHelper TaskAction="GetItemCount"
+                                                   InputItems1="@(BundleFiles)">
+      <Output TaskParameter="ItemCount" PropertyName="BundleFilesCount"/>
+    </MSBuild.ExtensionPack.Framework.MsBuildHelper>
+    <MSBuild Projects="%(BundleFiles.Identity)"
+             Properties="$(MSBuildProperties)"
+             Condition="'$(BundleFilesCount)' != '0'" />
+  </Target>
+  <Target Name="Bundle NuGet" Condition="'$(Revision)' &gt; '0'">
+    <MSBuild.ExtensionPack.Framework.MsBuildHelper TaskAction="GetItemCount"
+                                                   InputItems1="@(NuSpecFiles)">
+      <Output TaskParameter="ItemCount" PropertyName="NuSpecFilesCount"/>
+    </MSBuild.ExtensionPack.Framework.MsBuildHelper>
+    <MakeDir Directories="$(BundleDirectory)"
+             Condition="'$(NuSpecFilesCount)' != '0' And !Exists('$(BundleDirectory)')" />
+    <Exec Command="nuget pack &quot;%(NuSpecFiles.Identity)&quot;"
+          WorkingDirectory="$(BundleDirectory)"
+          Condition="'$(NuSpecFilesCount)' != '0'" />
+  </Target>
+</Project>

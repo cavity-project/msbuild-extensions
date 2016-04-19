@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\Cavity 2.0\Target.framework" />
+  <Import Project="$(MSBuildExtensionsPath)\Cavity 2.0\Compliance.include" />
+  <PropertyGroup>
+    <FileAlignment>512</FileAlignment>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <OutputType Condition=" '$(OutputType)' == '' ">Library</OutputType>
+    <RootNamespace Condition=" '$(RootNamespace)' == '' ">Cavity</RootNamespace>
+    <DefineConstants Condition=" '$(SuppressTrace)' != 'true' ">TRACE;$(DefineConstants)</DefineConstants>
+  </PropertyGroup>
+  <Choose>
+    <When Condition=" '$(Configuration)' == 'Debug' ">
+      <PropertyGroup>
+        <DefineConstants Condition=" '$(SuppressDebug)' != 'true' ">DEBUG;$(DefineConstants)</DefineConstants>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+      </PropertyGroup>
+    </When>
+    <When Condition=" '$(Configuration)' == 'Release' ">
+      <PropertyGroup>
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+      </PropertyGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="Exists('$(SolutionDir)$(RootNamespace).snk')">
+      <PropertyGroup>
+        <SignAssembly Condition=" '$(SignAssembly)' == '' ">true</SignAssembly>
+        <AssemblyOriginatorKeyFile>$(SolutionDir)$(RootNamespace).snk</AssemblyOriginatorKeyFile>
+      </PropertyGroup>
+      <ItemGroup>
+        <None Include="$(SolutionDir)$(RootNamespace).snk">
+          <Link>Properties\$(RootNamespace).snk</Link>
+        </None>
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <PropertyGroup>
+        <SignAssembly>false</SignAssembly>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <Compile Condition="Exists('$(SolutionDir)Version.cs')"
+             Include="$(SolutionDir)Version.cs">
+      <Link>Properties\Version.cs</Link>
+    </Compile>
+    <Compile Condition="Exists('$(SolutionDir)$(RootNamespace).cs')"
+             Include="$(SolutionDir)$(RootNamespace).cs">
+      <Link>Properties\$(RootNamespace).cs</Link>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

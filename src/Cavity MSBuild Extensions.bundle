@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
+         DefaultTargets="Run"
+         ToolsVersion="4.0">
+  <PropertyGroup>
+    <BundleDirectory>$(MSBuildProjectDirectory)\bundle</BundleDirectory>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ExtensionsDirectory>$(MSBuildProjectDirectory)\Installations\Cavity MSBuild Extensions Setup\bin\Release NET40 AnyCPU</ExtensionsDirectory>
+  </PropertyGroup>
+  <Target Name="Run">
+    <MakeDir Directories="$(BundleDirectory)" Condition="!Exists('$(BundleDirectory)')"/>
+    
+    <Copy DestinationFolder="$(BundleDirectory)" SourceFiles="$(ExtensionsDirectory)\Cavity-MSBuild-Extensions-2.0.msi" />
+  </Target>
+</Project>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <CodeAnalysisAdditionalOptions>/assemblyCompareMode:StrongNameIgnoringVersion</CodeAnalysisAdditionalOptions>
+    <StyleCopOverrideSettingsFile>$(MSBuildExtensionsPath)\Cavity 2.0\Tests.stylecop</StyleCopOverrideSettingsFile>
+  </PropertyGroup>
+  <Choose>
+    <When Condition="Exists('Properties\CodeAnalysis.ruleset')">
+      <PropertyGroup>
+        <CodeAnalysisRuleSet>Properties\CodeAnalysis.ruleset</CodeAnalysisRuleSet>
+      </PropertyGroup>
+    </When>
+    <Otherwise>
+      <PropertyGroup>
+        <CodeAnalysisRuleSet>$(MSBuildExtensionsPath)\Cavity 2.0\Tests.ruleset</CodeAnalysisRuleSet>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+</Project>

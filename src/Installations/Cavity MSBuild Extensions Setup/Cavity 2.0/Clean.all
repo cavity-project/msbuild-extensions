@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="Clean">
+    <CallTarget Targets="Clean solutions" />
+    <CallTarget Targets="Clean files" />
+    <CallTarget Targets="Clean output" />
+  </Target>
+  <Target Name="Clean files">
+    <ItemGroup>
+      <UnwantedFiles Include="$(MSBuildProjectDirectory)\**\*crunchproject*" />
+      <UnwantedFiles Include="$(MSBuildProjectDirectory)\**\*crunchsolution*" />
+      <UnwantedFiles Include="$(MSBuildProjectDirectory)\**\*.csproj.user" />
+      <UnwantedFiles Include="$(MSBuildProjectDirectory)\**\*.csproj.vs10x" />
+      <UnwantedFiles Include="$(MSBuildProjectDirectory)\**\*.dotCover" />
+      <UnwantedFiles Include="$(MSBuildProjectDirectory)\**\*.Resharper.user" />
+      <UnwantedFiles Include="$(MSBuildProjectDirectory)\**\*.sln.docstates" />
+      <UnwantedFiles Include="$(MSBuildProjectDirectory)\**\*.suo" />
+      <UnwantedFiles Include="$(MSBuildProjectDirectory)\**\*.TeamCity.user" />
+      <UnwantedFiles Include="$(MSBuildProjectDirectory)\**\*.vcxproj.user" />
+    </ItemGroup>
+    <Delete Files="@(UnwantedFiles)" />
+  </Target>
+  <Target Name="Clean output">
+    <ItemGroup>
+      <ProjFiles Include="$(MSBuildProjectDirectory)\**\*.csproj" />
+      <ProjFiles Include="$(MSBuildProjectDirectory)\**\*.wixproj" />
+    </ItemGroup>
+    <RemoveDir Directories="%(ProjFiles.RelativeDir)bin\"
+               ContinueOnError="true" />
+    <RemoveDir Directories="%(ProjFiles.RelativeDir)obj\"
+               ContinueOnError="true" />
+  </Target>
+  <Target Name="Clean solutions">
+    <ItemGroup>
+      <SolutionFiles Include="$(MSBuildProjectDirectory)\**\*.sln" />
+    </ItemGroup>
+    <MSBuild Projects="@(SolutionFiles)"
+             Targets="Clean"
+             BuildInParallel="true" />
+  </Target>
+  <Target Name="Clean packages">
+    <ItemGroup>
+      <PackageFiles Include="$(MSBuildProjectDirectory)\src\**\packages\**" />
+      <PackageDirectories Include="@(PackageFiles->'%(Directory)')"
+      	       Condition=" %(PackageFiles.Filename) != 'repositories' " />
+    </ItemGroup>
+    <RemoveDir Directories="%(PackageDirectories.RootDir)%(PackageDirectories.Identity)"
+      	       Condition=" Exists('%(PackageDirectories.RootDir)%(PackageDirectories.Identity)') " />
+  </Target>
+</Project>
